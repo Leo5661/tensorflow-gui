@@ -19,6 +19,8 @@ Mentors: **Monjoy Saha** (monjoy.saha@emory.edu) and **Pooya Mobadersany** (pooy
 Progress and features of the Tensorflow-GUI can be checked [here](https://github.com/sharmalab/tensorflow-gui/wiki/Progress-and-Features). 
 
 ## Installation & Setup
+#### For Ubuntu
+- (Optional but recommended) Install the Anaconda from here.
 - Clone the repo from GitHub
     ```
     git clone https://github.com/sharmalab/tensorflow-gui
@@ -50,7 +52,17 @@ Progress and features of the Tensorflow-GUI can be checked [here](https://github
     ```
     .\setup.ps1
     ```
-
+- (If you get error like this)
+    ```
+    .\setup.ps1 : File D:\tensorflow-gui\scripts\setup.ps1 cannot be loaded because running scripts is
+    disabled on this system.
+    ```
+  You can change your execution policy using
+    ```
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+    ```
+  and try again to run setup script. 
+  
 ***Note***: Make sure NodeJs, Anaconda, and git are available from powershell
 
 ## How to Run
