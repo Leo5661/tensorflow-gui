@@ -12,13 +12,12 @@ function createWindow() {
     win = new BrowserWindow({
         width: 1280,
         height: 720,
-        nodeIntegration: true
+        darkTheme: true,
+        webPreferences: { nodeIntegration: true},
+        show: false
     });
     win.loadFile('modules/index.html')
-    win.on('closed', () => {
-        win = null
-    });
-
+    
     var menu = Menu.buildFromTemplate([{
         label: 'File',
         submenu: [
@@ -39,22 +38,31 @@ function createWindow() {
         ]
     }]);
     Menu.setApplicationMenu(menu);
+    
+    win.once('ready-to-show', ()=>{
+        win.show();
+    });
 
+    win.on('closed', () => {
+        win = null
+    });
 }
 
-// on ready, create the new browser window
 app.on('ready', createWindow);
-
 app.on('window-all-closed', () => {
-    let killtensorboard = childprocess.spawn('killall', ["-9", "tensorboard"]);
-    // let killpython = childprocess.spawn('killall', ["-9", "python3"]);
+    let killtensorboard;
+    if (process.platform == 'win32') {
+        killtensorboard = childprocess.spawn('taskkill', ['/f','/im', 'tensorboard'])
+    }else{
+        killtensorboard = childprocess.spawn('killall', ["-9", "tensorboard"]);
+    }
+    
     if (process.platform !== 'darwin') {
         killtensorboard.on('close', (code) => {
             app.quit()
         });
     }
 });
-
 app.on('activate', () => {
     if (win === null) {
         createWindow()
